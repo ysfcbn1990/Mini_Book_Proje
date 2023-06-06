@@ -22,13 +22,12 @@ Scanner inp=new Scanner(System.in);
         int choice;
         do{
             System.out.println("------------------------------");
-            System.out.println("1-Kitapları Listeler\n2-Kitap Ekle\n3-Kitap Sil\n4-Yayınevine göre filtrele\n0-Geri dön");
+            System.out.println("1-Kitapları Listele\n2-Kitap Ekle\n3-Kitap Sil\n4-Yayınevine göre filtrele\n0-Geri dön");
             System.out.println("Seçiminiz:");
             choice= inp.nextInt();
             inp.nextLine();
             switch (choice){
                 case 1:listProduct();
-
                     break;
                 case 2:addProduct();
                     break;
@@ -36,8 +35,8 @@ Scanner inp=new Scanner(System.in);
                     break;
                 case 4:
                     System.out.println("Yayınevini seçiniz:");
-                    String publisher=inp.nextLine();
-                    filterProducts(publisher);
+                    String filter=inp.nextLine();
+                    filterProducts(filter);
                     break;
                 case 0:
                     System.out.println("Ana Menüye yönlendiriliyorsunuz");
@@ -69,16 +68,82 @@ Scanner inp=new Scanner(System.in);
 
     @Override
     public void addProduct() {
+        System.out.println("ISBN:");
+        String isbn = inp.nextLine();
+        boolean isExist = false;
+        for (Book book : this.books) {
+            if (book.getIsbn().equals(isbn)) {
+                System.out.println("Bu kitap sistemde zaten kayıtlı,Lütfen ürün güncelleme yapınız");
+                isExist = true;
+                break;
+            }
+        }
+        if (!isExist) {
+            System.out.println("Kitap adı:");
+            String name = inp.nextLine();
+            System.out.println("Yazar adı: ");
+            String author = inp.nextLine();
+            System.out.println("Yayınevi: ");
+            String publisher = inp.nextLine();
+            System.out.println("Birim Fiyatı: ");
+            String price = inp.nextLine();
+            System.out.println("Stok: ");
+            int stock = inp.nextInt();
+            inp.nextLine();
 
+            Book newbook = new Book(name, price, stock, author, publisher, isbn);
+            this.books.add(newbook);
+        }
+        listProduct();
     }
+
+
 
     @Override
     public void deleteProduct() {
+        boolean isExist=true;
+        System.out.println("Lütfen silmek istediğiniz kitabın id numarasını giriniz");
+        int idNo=inp.nextInt();
+
+        for(Book book:this.books){
+            if(book.getId()==idNo){
+                isExist=true;
+                this.books.remove(book);
+                System.out.println("Ürün Silindi");
+                break;
+            }else{
+               isExist=false;
+            }
+        }
+        if(!isExist){
+            System.out.println("Ürün bulunamadı");
+        }
 
     }
 
+
+
+
     @Override
-    public void filterProducts(String publisher) {
+    public void filterProducts(String filter) {
+  /*
+this.books.stream().
+        filter(book->book.getPublisher().equalsIgnoreCase(filter)).
+     forEach(book-> System.out.printf("\"%-2s | %-20s | %-15s | %-10s | %-4s | %-10s | %-3s\n",
+             book.getId(),book.getName(),book.getAuthorname(),book.getPublisher(),book.getIsbn(),book.getPrice(),book.getStock()));
+             */
+        int counter=0;
+       for(Book book:this.books){
+           if(book.getPublisher().equalsIgnoreCase(filter)){
+               System.out.printf("\"%-2s | %-20s | %-15s | %-10s | %-4s | %-10s | %-3s\n",
+                       book.getId(),book.getName(),book.getAuthorname(),book.getPublisher(),book.getIsbn(),book.getPrice(),book.getStock());
+             counter++;
+           }
+       }
+        if(counter==0){
+            System.out.println("Ürün bulunamadı.");
+        }
+
 
     }
 }

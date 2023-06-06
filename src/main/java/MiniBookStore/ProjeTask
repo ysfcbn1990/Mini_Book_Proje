@@ -8,5 +8,5 @@ Defter özellikleri:id,isim,birim fiyat,stok,marka, yaprak sayısı,ürün kodu
 
 Kullanıcı ilgili kategorideki ürünleri listeleyebilmeli
 Kullanıcı kategoriye göre ürün ekleyebilmeli,ürün mevcutsa uyarı verilmeli
-Kullanıcı ürünleri benzersiz numaralarına göre silebilmeli
+Kullanıcı ürünleri benzersiz numaralarına(id) göre silebilmeli
 Kullanıcı ürünleri marka(defter) veya yayınevine(kitap) göre filtreleyip listeleyebilmeli
